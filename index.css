@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: #ffffff;
+}
+@media (min-width: 600px) {
+  body {
+    background-color: #1C1C1C;
+    font-size: 1rem;
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 0 2.5em;
+}
+@media (min-width: 600px) {
+  .container {
+    max-width: 550px;
+    margin: auto;
+  }
+}
+
+.hide {
+  display: none !important;
+}
+
+/*HEADER*/
+.header {
+  background-image: url(/images/header.png);
+  background-size: cover;
+  background-position: center;
+  background-color: #0E0E0E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 200px;
+  position: relative;
+}
+
+.title {
+  font-size: 2.625em;
+  font-weight: 800;
+  margin: 0;
+}
+
+.header-link {
+  font-size: 0.875em;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.search-container {
+  position: absolute;
+  left: 2.5em;
+  right: 2.5em;
+  bottom: 0;
+  transform: translateY(50%);
+  display: flex;
+  align-items: center;
+}
+
+.search-input,
+.search-btn {
+  border: none;
+  font-weight: 500;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5em 2em;
+  background-image: url(/images/search-icon.png);
+  background-repeat: no-repeat;
+  background-position: 0.5em center;
+  border-radius: 6px 0 0 6px;
+  background-color: #2E2E2F;
+  color: #A5A5A5;
+}
+
+.search-btn {
+  padding: 0.5em 1.5em;
+  border-radius: 0 6px 6px 0;
+  background-color: #4B4B4B;
+  cursor: pointer;
+  color: inherit;
+}
+
+/*MOVIE LIST*/
+.movie-list,
+.list-initial-state {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.movie-list {
+  background-color: #121212;
+}
+
+.list-initial-state {
+  align-items: center;
+  justify-content: center;
+  color: #2E2E2F;
+}
+.list-initial-state img {
+  max-width: 70px;
+}
+
+.movie-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5em 0;
+  border-bottom: 1.5px solid #2C2C2C;
+}
+.movie-wrapper:nth-last-of-type(2) {
+  border-bottom: none;
+}
+
+.movie-poster {
+  max-width: 100px;
+  height: auto;
+}/*# sourceMappingURL=index.css.map */
