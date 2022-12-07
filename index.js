@@ -1,11 +1,15 @@
 const searchInputEl = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
 const movieListEl = document.querySelector('.movie-list');
+const pagesWrapperEl = document.querySelector('.pages-wrapper');
+
+let searchTitle = '';
 
 searchBtn.addEventListener('click', getListPages);
 
 function getListPages() {
-    const searchTitle = searchInputEl.value.replaceAll(' ', '+');
+    pagesWrapperEl.innerHTML = '';
+    searchTitle = searchInputEl.value.replaceAll(' ', '+');
     fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
         .then( response => response.json() )
         .then( data => {
@@ -24,6 +28,7 @@ function getMovieList(title, page) {
 }
 
 function getMoviesInfo(moviesArr) {
+    movieListEl.innerHTML = '';
     moviesArr.forEach( movie => {
         fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&i=${movie.imdbID}`)
             .then( response => response.json() )
@@ -34,14 +39,26 @@ function getMoviesInfo(moviesArr) {
 }
 
 function renderPageNums(pages) {
-    let pagesStr = '';
-    for(let i = 1; i <= pages; i++) {
-        pagesStr += `<span class="page-num">${i}</span>`;
+    pagesWrapperEl.innerHTML = `<span class="page-num page-num-selected">1</span>`;
+    for(let i = 2; i <= pages; i++) {
+        pagesWrapperEl.innerHTML += `<span class="page-num">${i}</span>`;
     }
-    movieListEl.innerHTML = `<div class="pages-wrapper">${pagesStr}</div>`;
+    console.log(pagesWrapperEl.textContent)
+    pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 }
 
+function pagesHandler(e) {
+    if ( e.target.classList.contains('page-num') ) {
+        for(let page of pagesWrapperEl.children) {
+            page.classList.remove('page-num-selected')
+        }
+        e.target.classList.add('page-num-selected');
+        getMovieList(searchTitle, e.target.textContent);
+    }
+} 
+
 function renderMovieList(movieObj) {
+    document.querySelector('.list-initial-state').classList.add('hide');
     const movieStr = `
         <div class="movie-wrapper">
             <img src="${movieObj.Poster}" alt="${movieObj.Title} poster" class="movie-poster">
@@ -51,5 +68,5 @@ function renderMovieList(movieObj) {
             </div>
         </div>
     `;
-    movieListEl.innerHTML = movieStr + movieListEl.innerHTML;
+    movieListEl.innerHTML += movieStr;
 }

@@ -99,6 +99,7 @@ body {
 
 /*MOVIE LIST*/
 
+.main,
 .movie-list, 
 .list-initial-state {
     display: flex;
@@ -106,7 +107,7 @@ body {
     flex-grow: 1;
 }
 
-.movie-list {
+.main {
     background-color: #121212;
 }
 
@@ -128,10 +129,32 @@ body {
     &:nth-last-of-type(2) {
         border-bottom: none;
     }
-
 }
 
 .movie-poster {
     max-width: 100px;
     height: auto;
+}
+
+.pages-wrapper {
+    word-break: break-all;
+    text-align: center;
+    line-height: 2em;
+    margin-bottom: 1em;
+}
+
+.page-num {
+    margin-right: .5em;
+    cursor: pointer;
+    padding-bottom: 1px;
+    border-bottom: 1px solid;
+    &:hover,
+    &:focus {
+        color: #A5A5A5;
+    }
+}
+
+.page-num-selected {
+    color: #A5A5A5;
+    border-color: transparent;
 }
