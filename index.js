@@ -33,6 +33,7 @@ function getMoviesInfo(moviesArr) {
         fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&i=${movie.imdbID}`)
             .then( response => response.json() )
             .then( data => {
+                console.log(data);
                 renderMovieList(data);
             } );
     } );
@@ -43,7 +44,6 @@ function renderPageNums(pages) {
     for(let i = 2; i <= pages; i++) {
         pagesWrapperEl.innerHTML += `<span class="page-num">${i}</span>`;
     }
-    console.log(pagesWrapperEl.textContent)
     pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 }
 
@@ -63,7 +63,15 @@ function renderMovieList(movieObj) {
         <div class="movie-wrapper">
             <img src="${movieObj.Poster}" alt="${movieObj.Title} poster" class="movie-poster">
             <div class="movie-info-wrapper">
-                <h3 class="movie-title">${movieObj.Title}</h3>
+                <div class="wrapper">
+                    <h3 class="movie-title">${movieObj.Title}</h3>
+                    <p>${movieObj.imdbRating}</p>
+                </div>
+                <div class="wrapper">
+                    <p>${movieObj.Runtime}</p>
+                    <p>${movieObj.Genre}</p>
+                    <p>Watchlist</p>
+                </div>
                 <p class="movie-plot">${movieObj.Plot}</p>
             </div>
         </div>

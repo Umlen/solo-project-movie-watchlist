@@ -120,10 +120,13 @@ body {
     }
 }
 
+.movie-list {
+    padding-top: 2em;
+}
+
 .movie-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 1.5em 0;
     border-bottom: 1.5px solid #2C2C2C;
     &:nth-last-of-type(2) {
@@ -132,8 +135,20 @@ body {
 }
 
 .movie-poster {
-    max-width: 100px;
+    min-width: 100px;
+    width: 100px;
     height: auto;
+    margin-right: 1.3em;
+}
+
+.movie-title {
+    font-size: 1.125em;
+    margin: 0 1em 0 0;
+}
+
+.movie-plot {
+    font-size: .875em;
+    margin: 0;
 }
 
 .pages-wrapper {
@@ -157,4 +172,16 @@ body {
 .page-num-selected {
     color: #A5A5A5;
     border-color: transparent;
+}
+
+
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: .5em;
+    & p {
+        margin: 0 1em 0 0;
+        font-size: .75em;
+    }
 }
