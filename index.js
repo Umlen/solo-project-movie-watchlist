@@ -6,8 +6,11 @@ const pagesWrapperEl = document.querySelector('.pages-wrapper');
 let searchTitle = '';
 
 searchBtn.addEventListener('click', getListPages);
+movieListEl.addEventListener( 'click', (e) => addToWatchList(e) );
+pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 
 function getListPages() {
+    //localStorage.clear(); //TEST
     pagesWrapperEl.innerHTML = '';
     searchTitle = searchInputEl.value.replaceAll(' ', '+');
     fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
@@ -33,7 +36,6 @@ function getMoviesInfo(moviesArr) {
         fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&i=${movie.imdbID}`)
             .then( response => response.json() )
             .then( data => {
-                console.log(data);
                 renderMovieList(data);
             } );
     } );
@@ -44,7 +46,6 @@ function renderPageNums(pages) {
     for(let i = 2; i <= pages; i++) {
         pagesWrapperEl.innerHTML += `<span class="page-num">${i}</span>`;
     }
-    pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 }
 
 function pagesHandler(e) {
@@ -62,15 +63,19 @@ function renderMovieList(movieObj) {
     const movieStr = `
         <div class="movie-wrapper">
             <img src="${movieObj.Poster}" alt="${movieObj.Title} poster" class="movie-poster">
-            <div class="movie-info-wrapper">
-                <div class="wrapper">
+            <div>
+                <div class="movie-info-wrapper">
                     <h3 class="movie-title">${movieObj.Title}</h3>
+                    <img src="/images/star-icon.png" alt="">
                     <p>${movieObj.imdbRating}</p>
                 </div>
-                <div class="wrapper">
+                <div class="movie-info-wrapper">
                     <p>${movieObj.Runtime}</p>
                     <p>${movieObj.Genre}</p>
-                    <p>Watchlist</p>
+                    <div class="add-btn">
+                        <img src="/images/plus-icon.png" alt="">
+                        <p>Watchlist</p>
+                    </div>
                 </div>
                 <p class="movie-plot">${movieObj.Plot}</p>
             </div>
@@ -78,3 +83,32 @@ function renderMovieList(movieObj) {
     `;
     movieListEl.innerHTML += movieStr;
 }
+
+function addToWatchList(e) {
+    if ( e.target.classList.contains('add-btn') || e.target.parentElement.classList.contains('add-btn') ) {
+        const movieEl = `
+            <div class="movie-wrapper">
+                ${e.target.closest('.movie-wrapper').innerHTML}
+            </div>
+        `;
+        if ( localStorage.length === 0 ) {
+            console.log(movieEl);
+            localStorage.setItem('userMovies', movieEl);
+        } else {
+            let userMoviesStr = localStorage.getItem('userMovies');
+            console.log(`BEFORE ${userMoviesStr}`);
+            userMoviesStr = movieEl + userMoviesStr;
+            console.log(`AFTER ${userMoviesStr}`);
+            localStorage.setItem('userMovies', userMoviesStr);
+        }
+    }
+}
+
+
+/*TEST*/
+document.querySelector('.header-link').addEventListener( 'click', () => {
+    if ( localStorage.length !== 0 ) {
+        let userMoviesStr = localStorage.getItem('userMovies');
+        movieListEl.innerHTML = userMoviesStr;
+    }
+} );
