@@ -55,11 +55,21 @@ body {
     margin: 0;
 }
 
-.header-link {
+.header-link,
+.empty-list-link {
     font-size: .875em;
     font-weight: 700;
     text-decoration: none;
     color: inherit;
+}
+
+.empty-list-link {
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    & img {
+        margin-right: .5em;
+    }
 }
 
 .search-container {
@@ -156,6 +166,11 @@ body {
     &:nth-last-of-type(2) {
         border-bottom: none;
     }
+}
+
+.watchlist-movie-wrapper {
+    border-bottom: 1.5px solid #E5E7EB !important;
+    margin-bottom: 1em;
 }
 
 .movie-info-wrapper {

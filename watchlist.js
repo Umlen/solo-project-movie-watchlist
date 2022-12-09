@@ -16,7 +16,7 @@ function renderMovieList(movieObj) {
     document.querySelector('.list-initial-state').classList.add('hide');
     movieListEl.classList.remove('hide');
     const movieStr = `
-        <div class="movie-wrapper">
+        <div class="movie-wrapper watchlist-movie-wrapper">
             <img src="${movieObj.Poster}" alt="${movieObj.Title} poster" class="movie-poster">
             <div>
                 <div class="movie-info-wrapper">
