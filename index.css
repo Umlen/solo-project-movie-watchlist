@@ -82,7 +82,7 @@ body {
 
 .search-input {
   width: 100%;
-  padding: 0.5em 2em;
+  padding: 0.5em 2.5em;
   background-image: url(/images/search-icon.png);
   background-repeat: no-repeat;
   background-position: 0.5em center;
@@ -128,9 +128,14 @@ body {
   align-items: center;
   justify-content: center;
   color: #2E2E2F;
+  text-align: center;
+  font-weight: 700;
 }
 .list-initial-state img {
   max-width: 70px;
+}
+.list-initial-state p {
+  color: #787878;
 }
 
 .movie-list {

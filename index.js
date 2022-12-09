@@ -10,15 +10,18 @@ movieListEl.addEventListener( 'click', (e) => addToWatchList(e) );
 pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 
 function getListPages() {
-    //localStorage.clear(); //TEST
     pagesWrapperEl.innerHTML = '';
     searchTitle = searchInputEl.value.replaceAll(' ', '+');
     fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
         .then( response => response.json() )
         .then( data => {
-            const pages =  Math.ceil( data.totalResults / 10 );
-            renderPageNums(pages);
-            getMovieList(searchTitle, 1);
+            if (data.Response === 'True') {
+                const pages =  Math.ceil( data.totalResults / 10 );
+                renderPageNums(pages);
+                getMovieList(searchTitle, 1);
+            } else {
+                noMoviesFound();
+            }
         } );
 }
 
@@ -42,6 +45,7 @@ function getMoviesInfo(moviesArr) {
 }
 
 function renderPageNums(pages) {
+    pagesWrapperEl.classList.remove('hide');
     pagesWrapperEl.innerHTML = `<span class="page-num page-num-selected">1</span>`;
     for(let i = 2; i <= pages; i++) {
         pagesWrapperEl.innerHTML += `<span class="page-num">${i}</span>`;
@@ -60,6 +64,7 @@ function pagesHandler(e) {
 
 function renderMovieList(movieObj) {
     document.querySelector('.list-initial-state').classList.add('hide');
+    movieListEl.classList.remove('hide');
     const movieStr = `
         <div class="movie-wrapper">
             <img src="${movieObj.Poster}" alt="${movieObj.Title} poster" class="movie-poster">
@@ -92,23 +97,23 @@ function addToWatchList(e) {
             </div>
         `;
         if ( localStorage.length === 0 ) {
-            console.log(movieEl);
             localStorage.setItem('userMovies', movieEl);
         } else {
             let userMoviesStr = localStorage.getItem('userMovies');
-            console.log(`BEFORE ${userMoviesStr}`);
             userMoviesStr = movieEl + userMoviesStr;
-            console.log(`AFTER ${userMoviesStr}`);
             localStorage.setItem('userMovies', userMoviesStr);
         }
     }
 }
 
-
-/*TEST*/
-document.querySelector('.header-link').addEventListener( 'click', () => {
-    if ( localStorage.length !== 0 ) {
-        let userMoviesStr = localStorage.getItem('userMovies');
-        movieListEl.innerHTML = userMoviesStr;
-    }
-} );
+function noMoviesFound() {
+    movieListEl.innerHTML = '';
+    movieListEl.classList.add('hide');
+    pagesWrapperEl.classList.add('hide');
+    document.querySelector('.list-initial-state').classList.remove('hide');
+    document.querySelector('.list-initial-state').innerHTML = `
+        <p class="list-error-state">
+            Unable to find what you’re looking for. Please try another search.
+        </p>
+    `;
+}
