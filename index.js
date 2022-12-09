@@ -10,6 +10,7 @@ movieListEl.addEventListener( 'click', (e) => addToWatchList(e) );
 pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 
 function getListPages() {
+    localStorage.clear();
     pagesWrapperEl.innerHTML = '';
     searchTitle = searchInputEl.value.replaceAll(' ', '+');
     fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
@@ -72,11 +73,11 @@ function renderMovieList(movieObj) {
                 <div class="movie-info-wrapper">
                     <h3 class="movie-title">${movieObj.Title}</h3>
                     <img src="/images/star-icon.png" alt="">
-                    <p>${movieObj.imdbRating}</p>
+                    <p id="imdb-rating">${movieObj.imdbRating}</p>
                 </div>
                 <div class="movie-info-wrapper">
-                    <p>${movieObj.Runtime}</p>
-                    <p>${movieObj.Genre}</p>
+                    <p id="runtime">${movieObj.Runtime}</p>
+                    <p id="genre">${movieObj.Genre}</p>
                     <div class="add-btn">
                         <img src="/images/plus-icon.png" alt="">
                         <p>Watchlist</p>
@@ -91,18 +92,22 @@ function renderMovieList(movieObj) {
 
 function addToWatchList(e) {
     if ( e.target.classList.contains('add-btn') || e.target.parentElement.classList.contains('add-btn') ) {
-        const movieEl = `
-            <div class="movie-wrapper">
-                ${e.target.closest('.movie-wrapper').innerHTML}
-            </div>
-        `;
-        if ( localStorage.length === 0 ) {
-            localStorage.setItem('userMovies', movieEl);
-        } else {
-            let userMoviesStr = localStorage.getItem('userMovies');
-            userMoviesStr = movieEl + userMoviesStr;
-            localStorage.setItem('userMovies', userMoviesStr);
+        const movieEl = e.target.closest('.movie-wrapper');
+        const movieObj = {
+            Title: movieEl.querySelector('.movie-title').textContent,
+            Poster: movieEl.querySelector('.movie-poster').src,
+            imdbRating: movieEl.querySelector('#imdb-rating').textContent,
+            Runtime: movieEl.querySelector('#runtime').textContent,
+            Genre: movieEl.querySelector('#genre').textContent,
+            Plot: movieEl.querySelector('.movie-plot').textContent,
+        };
+        let userMoviesArr = []
+        if ( localStorage.length !== 0 ) {
+            userMoviesArr = JSON.parse( localStorage.getItem('userMovies') );
         }
+        userMoviesArr.unshift(movieObj);
+        console.log(userMoviesArr);
+        localStorage.setItem( 'userMovies', JSON.stringify(userMoviesArr) );
     }
 }
 
