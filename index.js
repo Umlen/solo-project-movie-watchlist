@@ -10,7 +10,6 @@ movieListEl.addEventListener( 'click', (e) => addToWatchList(e) );
 pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 
 function getListPages() {
-    localStorage.clear();
     pagesWrapperEl.innerHTML = '';
     searchTitle = searchInputEl.value.replaceAll(' ', '+');
     fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)

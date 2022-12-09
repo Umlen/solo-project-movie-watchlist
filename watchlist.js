@@ -1,5 +1,8 @@
+const searchInputEl = document.querySelector('.search-input');
 const movieListEl = document.querySelector('.movie-list');
+const searchBtn = document.querySelector('.search-btn');
 
+searchBtn.addEventListener( 'click', searchingMovie )
 movieListEl.addEventListener( 'click', (e) => removeFromWatchList(e) );
 
 window.onload = function() {
@@ -44,6 +47,32 @@ function removeFromWatchList(e) {
         userMoviesArr = userMoviesArr.filter( movie => movie.Title !== movieTitle );
         localStorage.setItem( 'userMovies', JSON.stringify(userMoviesArr) );
         movieListEl.innerHTML = '';
-        userMoviesArr.forEach( movie => renderMovieList(movie) );
+        if (userMoviesArr.length > 0) {
+            userMoviesArr.forEach( movie => renderMovieList(movie) );
+        } else {
+            noMovies();
+        }
+    }
+}
+
+function noMovies() {
+    movieListEl.classList.add('hide');
+    document.querySelector('.list-initial-state').classList.remove('hide');
+}
+
+function searchingMovie() {
+    userMoviesArr = JSON.parse( localStorage.getItem('userMovies') );
+    const filteredMoviesArr = userMoviesArr.filter( movie => movie.Title.toLowerCase().includes( searchInputEl.value.toLowerCase() ) );
+    console.log(filteredMoviesArr)
+    console.log(searchInputEl.value)
+    if (filteredMoviesArr.length > 0) {
+        movieListEl.innerHTML = '';
+        filteredMoviesArr.forEach( movie => renderMovieList(movie) );
+    } else {
+        movieListEl.innerHTML = `
+            <p class="empty-search-text">
+                Unable to find what you’re looking for. Please try another search.
+            </p>
+        `;
     }
 }
