@@ -12,7 +12,7 @@ pagesWrapperEl.addEventListener( 'click', (e) => pagesHandler(e) );
 function getListPages() {
     pagesWrapperEl.innerHTML = '';
     searchTitle = searchInputEl.value.replaceAll(' ', '+');
-    fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
+    fetch(`https://www.omdbapi.com/?apikey=4ddb92a8&s=${searchTitle}`)
         .then( response => response.json() )
         .then( data => {
             if (data.Response === 'True') {
@@ -26,7 +26,7 @@ function getListPages() {
 }
 
 function getMovieList(title, page) {
-    fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&s=${title}&page=${page}`)
+    fetch(`https://www.omdbapi.com/?apikey=4ddb92a8&s=${title}&page=${page}`)
         .then( response => response.json() )
         .then( data => {
             getMoviesInfo(data.Search);
@@ -36,7 +36,7 @@ function getMovieList(title, page) {
 function getMoviesInfo(moviesArr) {
     movieListEl.innerHTML = '';
     moviesArr.forEach( movie => {
-        fetch(`http://www.omdbapi.com/?apikey=4ddb92a8&i=${movie.imdbID}`)
+        fetch(`https://www.omdbapi.com/?apikey=4ddb92a8&i=${movie.imdbID}`)
             .then( response => response.json() )
             .then( data => {
                 renderMovieList(data);
