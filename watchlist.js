@@ -63,8 +63,6 @@ function noMovies() {
 function searchingMovie() {
     userMoviesArr = JSON.parse( localStorage.getItem('userMovies') );
     const filteredMoviesArr = userMoviesArr.filter( movie => movie.Title.toLowerCase().includes( searchInputEl.value.toLowerCase() ) );
-    console.log(filteredMoviesArr)
-    console.log(searchInputEl.value)
     if (filteredMoviesArr.length > 0) {
         movieListEl.innerHTML = '';
         filteredMoviesArr.forEach( movie => renderMovieList(movie) );

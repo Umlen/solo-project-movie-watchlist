@@ -104,9 +104,12 @@ function addToWatchList(e) {
         if ( localStorage.length !== 0 ) {
             userMoviesArr = JSON.parse( localStorage.getItem('userMovies') );
         }
-        userMoviesArr.unshift(movieObj);
-        console.log(userMoviesArr);
-        localStorage.setItem( 'userMovies', JSON.stringify(userMoviesArr) );
+        if ( !searchDuplicates(userMoviesArr, movieObj.Title) ) {
+            userMoviesArr.unshift(movieObj);
+            localStorage.setItem( 'userMovies', JSON.stringify(userMoviesArr) );
+        } else {
+            alert('This movie already exist in your watchlist!');
+        }
     }
 }
 
@@ -120,4 +123,9 @@ function noMoviesFound() {
             Unable to find what you’re looking for. Please try another search.
         </p>
     `;
+}
+
+function searchDuplicates (userMoviesArray, movieTitle) {
+    const filteredArr = userMoviesArray.filter( userMovie => userMovie.Title === movieTitle);
+    return filteredArr.length !== 0 ? true : false;
 }
